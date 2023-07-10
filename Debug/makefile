@@ -9,9 +9,9 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include Middlewares/mForth/subdir.mk
 -include Middlewares/ST/threadx/ports/cortex_m4/gnu/src/subdir.mk
 -include Middlewares/ST/threadx/common/src/subdir.mk
+-include Drivers/mForth/subdir.mk
 -include Drivers/STM32L4xx_HAL_Driver/Src/subdir.mk
 -include Drivers/Custom/subdir.mk
 -include Core/Startup/subdir.mk

@@ -1,1 +1,11 @@
 /Debug/Drivers/Custom/*.lst
+/Debug/*.proxy_cache
+/*.vtg
+/Debug/Drivers/Custom/*.cyclo
+/Debug/Drivers/Custom/*.d
+/Debug/Drivers/Custom/*.o
+*.o
+*.d
+*.cyclo
+*.lst
+*.su

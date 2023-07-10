@@ -27,7 +27,7 @@ Core/Src \
 Core/Startup \
 Drivers/Custom \
 Drivers/STM32L4xx_HAL_Driver/Src \
+Drivers/mForth \
 Middlewares/ST/threadx/common/src \
 Middlewares/ST/threadx/ports/cortex_m4/gnu/src \
-Middlewares/mForth \
 
