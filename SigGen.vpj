@@ -1,0 +1,494 @@
+<!DOCTYPE Project SYSTEM "http://www.slickedit.com/dtd/vse/10.0/vpj.dtd">
+<Project
+   WorkingDir="."
+   Version="10.0"
+   VendorName="SlickEdit"
+   TemplateName="IAR 9.30.1"
+   Customized="1">
+   <Config
+      Name="Release"
+      OutputFile=""
+      CompilerConfigName="">
+      <Menu>
+         <Target
+            Name="Compile"
+            MenuCaption="&amp;Compile"
+            CaptureOutputWith="ProcessBuffer"
+            SaveOption="SaveCurrent"
+            RunFromDir="%rw">
+            <Exec/>
+         </Target>
+         <Target
+            Name="Build"
+            MenuCaption="&amp;Build"
+            CaptureOutputWith="ProcessBuffer"
+            SaveOption="SaveWorkspaceFiles"
+            RunFromDir="%rw">
+            <Exec/>
+         </Target>
+         <Target
+            Name="Rebuild"
+            MenuCaption="&amp;Rebuild"
+            CaptureOutputWith="ProcessBuffer"
+            SaveOption="SaveWorkspaceFiles"
+            RunFromDir="%rw">
+            <Exec/>
+         </Target>
+         <Target
+            Name="Debug"
+            MenuCaption="&amp;Debug"
+            SaveOption="SaveNone"
+            RunFromDir="%rw">
+            <Exec/>
+         </Target>
+         <Target
+            Name="Execute"
+            MenuCaption="E&amp;xecute"
+            SaveOption="SaveNone"
+            RunFromDir="%rw">
+            <Exec CmdLine='"SigGen.exe"'/>
+         </Target>
+      </Menu>
+      <Includes>
+         <Include Dir="C:/Program Files/IAR Systems/Embedded Workbench 9.30.1/arm/inc/"/>
+         <Include Dir="C:/Program Files/IAR Systems/Embedded Workbench 9.30.1/arm/inc/c/"/>
+         <Include Dir="C:/Program Files/IAR Systems/Embedded Workbench 9.30.1/arm/inc/asm/"/>
+         <Include Dir="C:/Program Files/IAR Systems/Embedded Workbench 9.30.1/arm/CMSIS/Include/"/>
+         <Include Dir="C:/Program Files/IAR Systems/Embedded Workbench 9.30.1/arm/src/lib/"/>
+         <Include Dir="C:/Program Files/IAR Systems/Embedded Workbench 9.30.1/arm/src/lib/dlib/"/>
+         <Include Dir="C:/Program Files/IAR Systems/Embedded Workbench 9.30.1/arm/src/lib/init/"/>
+      </Includes>
+   </Config>
+   <CustomFolders>
+      <Folder
+         Name="Source Files"
+         Filters="*.c;*.C;*.cc;*.cpp;*.cp;*.cxx;*.c++;*.prg;*.pas;*.dpr;*.asm;*.s;*.bas;*.java;*.cs;*.sc;*.scala;*.e;*.cob;*.html;*.rc;*.tcl;*.py;*.pl;*.d;*.m;*.mm;*.go;*.groovy;*.gsh"
+         GUID="{43EC7552-7862-4D81-9042-0A929D5CF2CC}"></Folder>
+      <Folder
+         Name="Header Files"
+         Filters="*.h;*.H;*.hh;*.hpp;*.hxx;*.h++;*.inc;*.sh;*.cpy;*.if"
+         GUID="{C24603B6-1F44-4DF0-AF14-13E90690C65F}"></Folder>
+      <Folder
+         Name="Resource Files"
+         Filters="*.ico;*.cur;*.dlg"
+         GUID="{B87F5C40-569C-4EA7-814E-79FC50ED4B22}"/>
+      <Folder
+         Name="Bitmaps"
+         Filters="*.bmp"
+         GUID="{438453ED-BC01-4617-80A4-318C89CA5B0E}"/>
+      <Folder
+         Name="Other Files"
+         Filters=""
+         GUID="{48925C43-229A-475B-9E68-C78567511C9C}"></Folder>
+   </CustomFolders>
+   <List Name="RTE">
+   </List>
+   <Files AutoFolders="DirectoryView">
+      <Folder Name="AZURE_RTOS">
+         <Folder Name="App">
+            <F N="AZURE_RTOS/App/app_azure_rtos.c"/>
+            <F N="AZURE_RTOS/App/app_azure_rtos.h"/>
+            <F N="AZURE_RTOS/App/app_azure_rtos_config.h"/>
+         </Folder>
+      </Folder>
+      <Folder Name="Core">
+         <Folder Name="Inc">
+            <F N="Core/Inc/app_threadx.h"/>
+            <F N="Core/Inc/ascii.h"/>
+            <F N="Core/Inc/forthconfig.h"/>
+            <F N="Core/Inc/forthconsole.h"/>
+            <F N="Core/Inc/gpio.h"/>
+            <F N="Core/Inc/main.h"/>
+            <F N="Core/Inc/RTE_Components.h"/>
+            <F N="Core/Inc/rtos.h"/>
+            <F N="Core/Inc/SelectIO.h"/>
+            <F N="Core/Inc/std.h"/>
+            <F N="Core/Inc/stm32_assert.h"/>
+            <F N="Core/Inc/stm32L432EveryPeripheral.h"/>
+            <F N="Core/Inc/stm32l4xx_hal_conf.h"/>
+            <F N="Core/Inc/stm32l4xx_it.h"/>
+            <F N="Core/Inc/tx_user.h"/>
+            <F N="Core/Inc/usart.h"/>
+         </Folder>
+         <Folder Name="Src">
+            <F N="Core/Src/app_threadx.c"/>
+            <F N="Core/Src/gpio.c"/>
+            <F N="Core/Src/main.c"/>
+            <F N="Core/Src/stm32l4xx_hal_msp.c"/>
+            <F N="Core/Src/stm32l4xx_hal_timebase_tim.c"/>
+            <F N="Core/Src/stm32l4xx_it.c"/>
+            <F N="Core/Src/syscalls.c"/>
+            <F N="Core/Src/sysmem.c"/>
+            <F N="Core/Src/system_stm32l4xx.c"/>
+            <F N="Core/Src/tx_initialize_low_level.S"/>
+            <F N="Core/Src/usart.c"/>
+         </Folder>
+         <Folder Name="Startup">
+            <F N="Core/Startup/startup_stm32l432kcux.s"/>
+         </Folder>
+      </Folder>
+      <Folder Name="Drivers">
+         <Folder Name="CMSIS">
+            <Folder Name="Device">
+               <Folder Name="ST">
+                  <Folder Name="STM32L4xx">
+                     <Folder Name="Include">
+                        <F N="Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l432xx.h"/>
+                        <F N="Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h"/>
+                        <F N="Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"/>
+                     </Folder>
+                  </Folder>
+               </Folder>
+            </Folder>
+            <Folder Name="Include">
+               <F N="Drivers/CMSIS/Include/cmsis_armcc.h"/>
+               <F N="Drivers/CMSIS/Include/cmsis_armclang.h"/>
+               <F N="Drivers/CMSIS/Include/cmsis_armclang_ltm.h"/>
+               <F N="Drivers/CMSIS/Include/cmsis_compiler.h"/>
+               <F N="Drivers/CMSIS/Include/cmsis_gcc.h"/>
+               <F N="Drivers/CMSIS/Include/cmsis_iccarm.h"/>
+               <F N="Drivers/CMSIS/Include/cmsis_version.h"/>
+               <F N="Drivers/CMSIS/Include/core_armv81mml.h"/>
+               <F N="Drivers/CMSIS/Include/core_armv8mbl.h"/>
+               <F N="Drivers/CMSIS/Include/core_armv8mml.h"/>
+               <F N="Drivers/CMSIS/Include/core_cm0.h"/>
+               <F N="Drivers/CMSIS/Include/core_cm0plus.h"/>
+               <F N="Drivers/CMSIS/Include/core_cm1.h"/>
+               <F N="Drivers/CMSIS/Include/core_cm23.h"/>
+               <F N="Drivers/CMSIS/Include/core_cm3.h"/>
+               <F N="Drivers/CMSIS/Include/core_cm33.h"/>
+               <F N="Drivers/CMSIS/Include/core_cm35p.h"/>
+               <F N="Drivers/CMSIS/Include/core_cm4.h"/>
+               <F N="Drivers/CMSIS/Include/core_cm7.h"/>
+               <F N="Drivers/CMSIS/Include/core_sc000.h"/>
+               <F N="Drivers/CMSIS/Include/core_sc300.h"/>
+               <F N="Drivers/CMSIS/Include/mpu_armv7.h"/>
+               <F N="Drivers/CMSIS/Include/mpu_armv8.h"/>
+               <F N="Drivers/CMSIS/Include/tz_context.h"/>
+            </Folder>
+         </Folder>
+         <Folder Name="Custom">
+            <F N="Drivers/Custom/gpioforth.h"/>
+            <F N="Drivers/Custom/gpioforth.src"/>
+            <F N="Drivers/Custom/gpiointerface.c"/>
+            <F N="Drivers/Custom/gpiointerface.h"/>
+            <F N="Drivers/Custom/macrotest.c"/>
+            <F N="Drivers/Custom/snprintf99.c"/>
+            <F N="Drivers/Custom/snprintf99.h"/>
+            <F N="Drivers/Custom/snprintf99_org.c"/>
+            <F N="Drivers/Custom/usart1.c"/>
+            <F N="Drivers/Custom/usart1.h"/>
+            <F N="Drivers/Custom/usart2.c"/>
+            <F N="Drivers/Custom/usart2.h"/>
+         </Folder>
+         <Folder Name="STM32L4xx_HAL_Driver">
+            <Folder Name="Inc">
+               <Folder Name="Legacy">
+                  <F N="Drivers/STM32L4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h"/>
+               </Folder>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_cortex.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma_ex.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_exti.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ex.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ramfunc.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio_ex.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc_ex.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_adc.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_bus.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_comp.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_cortex.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_crc.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_crs.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dac.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dma.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dma2d.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dmamux.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_exti.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_fmc.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_gpio.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_i2c.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_iwdg.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_lptim.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_lpuart.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_opamp.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_pka.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_pwr.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_rcc.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_rng.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_rtc.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_sdmmc.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_spi.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_swpmi.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_system.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_tim.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_utils.h"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_wwdg.h"/>
+            </Folder>
+            <Folder Name="Src">
+               <F N="Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.c"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.c"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma_ex.c"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.c"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash.c"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.c"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ramfunc.c"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_gpio.c"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr.c"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.c"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.c"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.c"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.c"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.c"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_dma.c"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_exti.c"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.c"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.c"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.c"/>
+               <F N="Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.c"/>
+            </Folder>
+         </Folder>
+      </Folder>
+      <Folder Name="Middlewares">
+         <Folder Name="mForth">
+            <F N="Middlewares/mForth/asswords.c"/>
+            <F N="Middlewares/mForth/asswords.h"/>
+            <F N="Middlewares/mForth/bits.h"/>
+            <F N="Middlewares/mForth/coredefs.h"/>
+            <F N="Middlewares/mForth/corewords.c"/>
+            <F N="Middlewares/mForth/corewords.h"/>
+            <F N="Middlewares/mForth/dos.c"/>
+            <F N="Middlewares/mForth/dos.h"/>
+            <F N="Middlewares/mForth/float.c"/>
+            <F N="Middlewares/mForth/float.h"/>
+            <F N="Middlewares/mForth/forth.c"/>
+            <F N="Middlewares/mForth/forth.h"/>
+            <F N="Middlewares/mForth/forthconfig_sample.h"/>
+            <F N="Middlewares/mForth/forthos.h"/>
+            <F N="Middlewares/mForth/ftypes.h"/>
+            <F N="Middlewares/mForth/words.c"/>
+            <F N="Middlewares/mForth/words.h"/>
+         </Folder>
+         <Folder Name="ST">
+            <Folder Name="threadx">
+               <Folder Name="common">
+                  <Folder Name="inc">
+                     <F N="Middlewares/ST/threadx/common/inc/tx_api.h"/>
+                     <F N="Middlewares/ST/threadx/common/inc/tx_block_pool.h"/>
+                     <F N="Middlewares/ST/threadx/common/inc/tx_byte_pool.h"/>
+                     <F N="Middlewares/ST/threadx/common/inc/tx_event_flags.h"/>
+                     <F N="Middlewares/ST/threadx/common/inc/tx_initialize.h"/>
+                     <F N="Middlewares/ST/threadx/common/inc/tx_mutex.h"/>
+                     <F N="Middlewares/ST/threadx/common/inc/tx_queue.h"/>
+                     <F N="Middlewares/ST/threadx/common/inc/tx_semaphore.h"/>
+                     <F N="Middlewares/ST/threadx/common/inc/tx_thread.h"/>
+                     <F N="Middlewares/ST/threadx/common/inc/tx_timer.h"/>
+                     <F N="Middlewares/ST/threadx/common/inc/tx_trace.h"/>
+                     <F N="Middlewares/ST/threadx/common/inc/tx_user_sample.h"/>
+                  </Folder>
+                  <Folder Name="src">
+                     <F N="Middlewares/ST/threadx/common/src/tx_block_allocate.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_block_pool_cleanup.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_block_pool_create.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_block_pool_delete.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_block_pool_info_get.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_block_pool_initialize.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_block_pool_prioritize.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_block_release.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_byte_allocate.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_byte_pool_cleanup.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_byte_pool_create.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_byte_pool_delete.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_byte_pool_info_get.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_byte_pool_initialize.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_byte_pool_prioritize.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_byte_pool_search.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_byte_release.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_event_flags_cleanup.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_event_flags_create.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_event_flags_delete.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_event_flags_get.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_event_flags_info_get.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_event_flags_initialize.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_event_flags_set.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_event_flags_set_notify.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_initialize_high_level.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_initialize_kernel_enter.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_initialize_kernel_setup.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_mutex_cleanup.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_mutex_create.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_mutex_delete.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_mutex_get.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_mutex_info_get.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_mutex_initialize.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_mutex_prioritize.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_mutex_priority_change.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_mutex_put.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_queue_cleanup.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_queue_create.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_queue_delete.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_queue_flush.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_queue_front_send.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_queue_info_get.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_queue_initialize.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_queue_prioritize.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_queue_receive.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_queue_send.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_queue_send_notify.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_semaphore_ceiling_put.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_semaphore_cleanup.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_semaphore_create.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_semaphore_delete.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_semaphore_get.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_semaphore_info_get.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_semaphore_initialize.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_semaphore_prioritize.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_semaphore_put.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_semaphore_put_notify.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_create.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_delete.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_entry_exit_notify.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_identify.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_info_get.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_initialize.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_preemption_change.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_priority_change.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_relinquish.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_reset.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_resume.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_shell_entry.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_sleep.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_stack_analyze.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_stack_error_handler.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_stack_error_notify.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_suspend.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_system_preempt_check.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_system_resume.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_system_suspend.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_terminate.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_time_slice.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_time_slice_change.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_timeout.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_thread_wait_abort.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_time_get.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_time_set.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_timer_activate.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_timer_change.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_timer_create.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_timer_deactivate.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_timer_delete.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_timer_expiration_process.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_timer_info_get.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_timer_initialize.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_timer_system_activate.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_timer_system_deactivate.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/tx_timer_thread_entry.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_block_allocate.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_block_pool_create.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_block_pool_delete.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_block_pool_info_get.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_block_pool_prioritize.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_block_release.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_byte_allocate.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_byte_pool_create.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_byte_pool_delete.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_byte_pool_info_get.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_byte_pool_prioritize.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_byte_release.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_event_flags_create.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_event_flags_delete.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_event_flags_get.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_event_flags_info_get.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_event_flags_set.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_event_flags_set_notify.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_mutex_create.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_mutex_delete.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_mutex_get.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_mutex_info_get.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_mutex_prioritize.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_mutex_put.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_queue_create.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_queue_delete.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_queue_flush.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_queue_front_send.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_queue_info_get.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_queue_prioritize.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_queue_receive.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_queue_send.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_queue_send_notify.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_semaphore_ceiling_put.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_semaphore_create.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_semaphore_delete.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_semaphore_get.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_semaphore_info_get.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_semaphore_prioritize.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_semaphore_put.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_semaphore_put_notify.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_thread_create.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_thread_delete.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_thread_entry_exit_notify.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_thread_info_get.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_thread_preemption_change.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_thread_priority_change.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_thread_relinquish.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_thread_reset.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_thread_resume.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_thread_suspend.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_thread_terminate.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_thread_time_slice_change.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_thread_wait_abort.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_timer_activate.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_timer_change.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_timer_create.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_timer_deactivate.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_timer_delete.c"/>
+                     <F N="Middlewares/ST/threadx/common/src/txe_timer_info_get.c"/>
+                  </Folder>
+               </Folder>
+               <Folder Name="ports">
+                  <Folder Name="cortex_m4">
+                     <Folder Name="gnu">
+                        <Folder Name="inc">
+                           <F N="Middlewares/ST/threadx/ports/cortex_m4/gnu/inc/tx_port.h"/>
+                        </Folder>
+                        <Folder Name="src">
+                           <F N="Middlewares/ST/threadx/ports/cortex_m4/gnu/src/tx_thread_context_restore.S"/>
+                           <F N="Middlewares/ST/threadx/ports/cortex_m4/gnu/src/tx_thread_context_save.S"/>
+                           <F N="Middlewares/ST/threadx/ports/cortex_m4/gnu/src/tx_thread_interrupt_control.S"/>
+                           <F N="Middlewares/ST/threadx/ports/cortex_m4/gnu/src/tx_thread_interrupt_disable.S"/>
+                           <F N="Middlewares/ST/threadx/ports/cortex_m4/gnu/src/tx_thread_interrupt_restore.S"/>
+                           <F N="Middlewares/ST/threadx/ports/cortex_m4/gnu/src/tx_thread_schedule.S"/>
+                           <F N="Middlewares/ST/threadx/ports/cortex_m4/gnu/src/tx_thread_stack_build.S"/>
+                           <F N="Middlewares/ST/threadx/ports/cortex_m4/gnu/src/tx_thread_system_return.S"/>
+                           <F N="Middlewares/ST/threadx/ports/cortex_m4/gnu/src/tx_timer_interrupt.S"/>
+                        </Folder>
+                     </Folder>
+                  </Folder>
+               </Folder>
+            </Folder>
+         </Folder>
+      </Folder>
+      <F N=".cproject"/>
+      <F N=".mxproject"/>
+      <F N=".project"/>
+      <F N="SigGen Debug.launch"/>
+      <F N="SigGen.ioc"/>
+      <F N="SigGen.vpj"/>
+      <F N="SigGen.vpw"/>
+      <F N="SigGen.vpwhist"/>
+      <F N="SigGen.vtg"/>
+      <F N="STM32L432KCUX_FLASH.ld"/>
+   </Files>
+</Project>

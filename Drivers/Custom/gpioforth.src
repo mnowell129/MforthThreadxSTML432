@@ -1,0 +1,44 @@
+
+   addDefineCountedStringWithHelpCountedString(user,(Cell)GPIOA,"GPIOA",
+                                                "( -- PORT ) Gives address of GPIO port");
+   addDefineCountedStringWithHelpCountedString(user,(Cell)GPIOB,"GPIOB",
+                                                "( -- PORT ) Gives address of GPIO port");
+   addDefineCountedStringWithHelpCountedString(user,(Cell)GPIOC,"GPIOC",
+                                                "( -- PORT ) Gives address of GPIO port");
+   addDefineCountedStringWithHelpCountedString(user,(Cell)GPIOH,"GPIOH",
+                                                "( -- PORT ) Gives address of GPIO port");
+   addDefineCountedStringWithHelpCountedString(user,(Cell)0,"PORT#A",
+                                                "( -- PORT# ) Returns port number for clock enable");
+   addDefineCountedStringWithHelpCountedString(user,(Cell)1,"PORT#B",
+                                                "( -- PORT# ) Returns port number for clock enable");
+   addDefineCountedStringWithHelpCountedString(user,(Cell)2,"PORT#C",
+                                                "( -- PORT# ) Returns port number for clock enable");
+   addDefineCountedStringWithHelpCountedString(user,(Cell)7,"PORT#H",
+                                                "( -- PORT# ) Returns port number for clock enable");
+   addDefineCountedStringWithHelpCountedString(user,(Cell)LL_GPIO_OUTPUT_PUSHPULL,"PUSHPULL",
+                                                " mode ");
+   addDefineCountedStringWithHelpCountedString(user,(Cell)LL_GPIO_OUTPUT_OPENDRAIN,"OPENDRAIN",
+                                                " mode ");
+   addDefineCountedStringWithHelpCountedString(user,(Cell)LL_GPIO_PULL_NO,"NOPULL",
+                                                " mode ");
+   addDefineCountedStringWithHelpCountedString(user,(Cell)LL_GPIO_PULL_UP,"PULLUP",
+                                                " mode ");
+   addDefineCountedStringWithHelpCountedString(user,(Cell)LL_GPIO_PULL_DOWN,"PULLDOWN",
+                                                " mode ");
+   addWordCountedStringWithHelpCountedString(user,forthPortWrite,"port!",
+                                              "( port mask -- )");
+   addWordCountedStringWithHelpCountedString(user,forthPortRead,"port@",
+                                              "( port -- value");
+   addWordCountedStringWithHelpCountedString(user,forthPinWrite,"pin!",
+                                              "( port pin state -- )");
+   addWordCountedStringWithHelpCountedString(user,forthPinRead,"pin@",
+                                              "( port pin# -- value ");
+   addWordCountedStringWithHelpCountedString(user,forthPortInitOut,"portInitOut",
+                                              "( port pin mode pull initial -- ) ");
+   addWordCountedStringWithHelpCountedString(user,forthPortInitIn,"portInitIn",
+                                              "( port pin mode pull initial -- ) ");
+   addWordCountedStringWithHelpCountedString(user,forthPortClockOn,"portClockOn",
+                                              "( port# -- ) ");
+   addWordCountedStringWithHelpCountedString(user,forthPortClockOff,"portClockOff",
+                                              "( port# -- ) ");
+

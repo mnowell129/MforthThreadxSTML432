@@ -1,0 +1,672 @@
+/* MIT License
+
+Copyright (c) 2020 mnowell129
+ 
+Charles M. Nowell Jr.
+The Mouse Works, LLC 
+mickeynowell@tmwfl.com 
+ 
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "\x9" "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "\x6" "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.*/ 
+/*
+MickeyForth (mForth) forth interpreter.
+copyright 1998-2011
+*/
+
+#ifdef USE_HELP
+ /* function         counted string with lexicon bits */
+ { NULL,              NULL,NULL},
+#ifndef SECURE
+ { spat,              "\x4" "sp@",NULL},
+ { spstore,           "\x4" "sp!",NULL},
+ { rpat,              "\x4" "rp@",NULL},
+ { rat,               "\x3" "r@",NULL},
+ { rpstore,           "\x4" "rp!",NULL},
+ { spzero,            "\x4" "sp0",NULL},
+ { rpzero,            "\x4" "rp0",NULL},
+#endif
+ { rot,               "\x4" "rot",NULL},
+ { swap,              "\x5" "swap",NULL},
+ { dupp,              "\x4" "dup",NULL},
+ { over,              "\x5" "over",NULL},
+ { twoDup,            "\x5" "2dup",NULL},
+ { nip,               "\x4" "nip",NULL},
+ { twoDrop,           "\x6" "2drop",NULL},
+ { pick,              "\x5" "pick",NULL},
+ { at,                "\x2" "@",NULL},
+ { bang,              "\x2" "!",NULL},
+ { charbang,          "\x3" "c!",NULL},
+ { charat,            "\x3" "c@",NULL},
+ { wordat,            "\x3" "w@",NULL},
+ { wordbang,          "\x3" "w!",NULL},
+#ifndef SECURE
+ { copy,              "\x5" "copy",NULL},
+#endif
+ { fill,              "\x5" "fill",NULL},
+ { subscribe,         "\xA" "subscribe",NULL},
+ { hex,               "\x4" "hex",NULL},
+ { decimal,           "\x8" "decimal",NULL},
+ { dot,               "\x2" ".",NULL},
+ { dotNoSpace,        "\x3" "..",NULL},
+#ifdef USE_FLOAT
+ { fdot,              "\x3" "f.",NULL},
+ { fdotdot,           "\x4" "f..",NULL},
+ { edot,              "\x3" "e.",NULL},
+ { ffdot,             "\x4" "ff."
+    ,"\x1E" "%b.a value -- (b a value -- )"},
+ { ffdotdot,             "\x5" "ff.."
+    ,"\x1E" "%b.a value -- (b a value -- )"},
+ { fgreater,          "\x3" "f>",NULL},
+ { fless,             "\x3" "f<",NULL},
+ { fequal,            "\x3" "f=",NULL},
+ { flessThanOrEqual,  "\x4" "f<=",NULL},
+ { fgreaterThanOrEqual,"\x4" "f>=",NULL},
+ { fplus,             "\x3" "f+",NULL},
+ { fminus,            "\x3" "f-",NULL},
+ { ftimes,            "\x3" "f*",NULL},
+ { fdivide,           "\x3" "f/",NULL},
+ { fAbs,              "\x5" "fabs",NULL},
+ { fNegate,           "\x3" "-f",NULL},
+ { fItoF,             "\x4" "i>f",NULL},
+ { fFtoI,             "\x4" "f>i",NULL},
+ { fTrunc,            "\x7" "ftrunc",NULL},
+ { fRound,            "\x7" "fround",NULL},
+ { fPi,               "\x3" "pi",NULL},
+ { fSin,              "\x4" "sin",NULL},
+ { fCos,              "\x4" "cos",NULL},
+ { fTan,              "\x4" "tan",NULL},
+ { farcSin,           "\x5" "asin",NULL},
+ { farcCos,           "\x5" "acos",NULL},
+ { farcTan,           "\x5" "atan",NULL},
+ { fPower,            "\x4" "pow",NULL},
+ { fSqrt,             "\x5" "sqrt",NULL},
+ { fCeil,             "\x5" "ceil",NULL},
+ { fFloor,            "\x6" "floor",NULL},
+ { fExp,              "\x4" "exp",NULL},
+ { fLog,              "\x4" "log",NULL},
+ { fRadiansToDegrees, "\x4" "r>d",NULL},
+ { fDegreesToRadians, "\x4" "d>r",NULL},
+#ifdef USE_MATRIX
+  {mDotProduct,                   "\x4" "dot",NULL},
+  {mDotProduct3D,                 "\x6" "dot3d",NULL},
+  {mCrossProduct,                 "\x6" "cross",NULL},
+  {mVectorMultByElement,          "\x6" "v*v>v",NULL},
+  {mNotZero,                      "\x4" "neq",NULL},
+  {mNormalize,                    "\x5" "norm",NULL},
+  {mNormalize4D,                  "\x7" "norm4d",NULL},
+  {mBuildMatrix,                  "\xC" "buildMatrix",NULL},
+  {mGenerateRotationMatrix,       "\xD" "genRotMatrix",NULL},
+  {mMatrixVectorMultiply,         "\x6" "m*v>v",NULL},
+  {mMatrixVectorMultiplyResult,   "\x6" "m*v>r",NULL},
+  {mScalarVectorMultiply,         "\x6" "s*v>r",NULL},
+  {mScalarMatrixMultiply,         "\x6" "s*m>r",NULL},
+  {mVectorCopy,                   "\x4" "v>v",NULL},
+  {mVectorsAreEqual,              "\x4" "v=v",NULL},
+  {mMatrixCopy,                   "\x4" "m>m",NULL},
+  {mMatrixTranspose,              "\x5" "T(m)",NULL},
+  {mVectorClear,                  "\x9" "clear(v)",NULL},
+  {mVectorAdd,                    "\x6" "v+v>r",NULL},
+  {mVectorSub,                    "\x6" "v-v>r",NULL},
+  {mComputeVectorMagnitude,       "\x4" "|v|",NULL},
+  {mVectorMagnitude,              "\x9" "v[3]=|v|",NULL},
+  {mComputeVectorMagnitude2D,     "\x6" "|x,y|",NULL},
+  {mMatrixClear,                  "\x9" "clear(m)",NULL},
+  {mSetIdentity,                  "\x4" "m=I",NULL},
+  {mMatrixMultiply,               "\x6" "m*m>r",NULL},
+  {mMatrixInverse,                "\x7" "inv(m)",NULL},
+  {mMatrixPrint,                  "\x3" "m.",NULL},
+  {mMatrixPrintDotF,              "\x4" "m.f",NULL},
+  {mVectorPrint,                  "\x3" "v.",NULL},
+  {mVectorPrintDotF,              "\x4" "v.f",NULL},
+#endif
+#endif
+ { dots,              "\x3" ".s",NULL},
+ { and,               "\x4" "and",NULL},
+ { andand,            "\x3" "&&",NULL},
+ { or,                "\x3" "or",NULL},
+ { oror,              "\x3" "||",NULL},
+ { not,               "\x4" "not",NULL},
+ { lnot,              "\x3" "!=",NULL},
+ { drop,              "\x5" "drop",NULL},
+ { shl,               "\x3" "<<",NULL},
+ { shr,               "\x3" ">>",NULL},
+ { plus,              "\x2" "+",NULL},
+ { minus,             "\x2" "-",NULL},
+ { times,             "\x2" "*",NULL},
+ { multiplySigned,    "\x3" "s*",NULL},
+ { divide,            "\x2" "/",NULL},
+ { divideSigned,      "\x3" "s/",NULL},
+ { toByteAddress,     "\x6" "ci>ba",NULL},
+ { xor,               "\x4" "xor",NULL},
+ { slashMod,          "\x5" "/mod",NULL},
+ { mod,               "\x4" "mod",NULL},
+ { forget,            "\x7" "forget",NULL},
+ { words,             "\x6" "words",NULL},
+ { igrep,             "\x5" "grep",NULL},
+ { igrep,             "\x6" "igrep",NULL},
+ { grep,              "\x6" "sgrep",NULL},
+ { doLOOP,            "\x7" "doLOOP",NULL},
+ { qbranch,           "\x8" "qbranch",NULL},
+ { branch,            "\x7" "branch",NULL},
+ { doLOOP,            "\x7" "doLOOP",NULL},
+ { bye,               "\x4" "bye",NULL},
+ { doLIT,             "\x6" "doLIT",NULL},
+ { next,              "\x5" "next",NULL},
+ { exiT,              "\x5" "exit",NULL},
+#ifndef SECURE
+ { execute,           "\x8" "execute",NULL},
+ { atExecute,         "\x9" "@execute",NULL},
+#endif
+ { digit,             "\x6" "digit",NULL},
+ { extract,           "\x8" "extract",NULL},
+ { lessPound,         "\x3" "<#",NULL},
+ { hold,              "\x5" "hold",NULL},
+ { pound,             "\x2" "#",NULL},
+ { poundS,            "\x3" "#s",NULL},
+#ifdef USE_FLOAT
+ { floatPoundS,       "\x5" "#w.f",NULL},
+ { floatPoundSFree,   "\x3" "#f",NULL},
+ { floatPoundSE,      "\x3" "#e",NULL},
+#endif
+ { sign,              "\x5" "sign",NULL},
+ { count,             "\x6" "count",NULL},
+ { dotId,             "\x4" ".id",NULL},
+ { type,              "\x5" "type",NULL},
+ { poundGreater,      "\x3" "#>",NULL},
+#ifndef SECURE
+ { toR,               "\x3" ">r",NULL},
+ { fromR,             "\x3" "r>",NULL},
+#endif
+ { PARSE,             "\x6" "parse",NULL},
+ { PARSEALT,          "\xA" "pairparse",NULL},
+ { toIN,              "\x4" ">in",NULL},
+ { plusBang,          "\x3" "+!",NULL},
+ { backSlash,         "\x82" "\\",NULL},   /* immediate bit set */
+ { backSlash,         "\x83" "//",NULL},   /* immediate bit set */
+ { tokeN,             "\x6" "token",NULL},
+#ifndef SECURE
+ { here,              "\x5" "here",NULL},
+#endif
+ { emit,              "\x5" "emit",NULL},
+ { key,               "\x4" "key",NULL},
+#ifndef SECURE
+ { packDollar,        "\x6" "pack$",NULL},
+ { sameQ,             "\x6" "same?",NULL},
+ { find,              "\x5" "find",NULL},
+ { nameQ,             "\x6" "name?",NULL},
+ { nameQW,            "\x7" "name?w",NULL},
+ { nameTo,            "\x6" "name>",NULL},
+ { toName,            "\x6" ">name",NULL},
+ { nameToText,        "\xA" "name>text",NULL},
+#endif
+ { query,             "\x6" "query",NULL},
+ { dotPrompt,         "\x4" ".ok",NULL},
+ { forthVerboseMode,         "\x8" "verbose",NULL},
+ { numberQ,           "\x8" "number?",NULL},
+ { defineQ,           "\x8" "define?",NULL},
+ { qDup,              "\x5" "?dup",NULL},
+ { space,             "\x6" "space",NULL},
+ { colon,             "\x2" ":",NULL},
+ { semiColon,         "\x82" ";",NULL},
+ { leftBracket,       "\x82" "[",NULL},
+ { rightBracket,      "\x82" "]",NULL},
+ { arrayBranch,       "\x88" "abranch",NULL},
+ { arrayAhead,        "\x87" "aahead",NULL},
+ { arrayStart,        "\x87" "array[",NULL},
+ { arrayEnd,          "\x87" "]array",NULL},
+ { arrayPut,          "\x83" "a!",NULL},  // changed from array!
+#ifndef SECURE
+ { dollarCommaN,      "\x4" "$,n",NULL},
+ { dollarCommaNFinish,"\x4" "n,$",NULL},
+ { comma,             "\x2" ",",NULL},
+ { colonComma,        "\x3" ":,",NULL},
+#endif
+ { dumP,              "\x5" "dump",NULL},
+#ifndef SECURE
+ { compile,           "\x8" "compile",NULL},
+#endif
+ #ifdef COMPILED_ROOT
+ /* a special word to allow bracket compile to work at startup */
+#ifndef SECURE
+ { bracketCompile,    "\x8A" "[compile]",NULL},
+ { iLiteral,          "\x89" "iLiteral",NULL},
+ { iString,           "\x88" "iString",NULL},
+#endif
+ #endif
+ { immediate,         "\x8A" "immediate",NULL},
+ { cr,                "\x3" "cr",NULL},
+ { blank,             "\x3" "bl",NULL},
+#ifndef SECURE
+ { see,               "\x4" "see",NULL},
+#endif
+ { qKey,               "\x5" "?key",NULL},
+ { lessThan,           "\x2" "<",NULL},
+ { greaterThan,        "\x2" ">",NULL},
+ { absolute,           "\x4" "abs",NULL},
+ { equals,             "\x2" "=",NULL},
+ { negate,            "\x7" "negate",NULL},
+ { lessThanZero,      "\x3" "0<",NULL},
+ { greaterThanZero,   "\x3" "0>",NULL},
+ { equalsZero,        "\x3" "0=",NULL},
+ /* runtime control words */
+ { next,              "\x5" "next",NULL},
+ { doLOOP,            "\x7" "doLOOP",NULL},
+ { plusLoop,          "\x6" "+LOOP",NULL},
+ /* compiling words */
+ /* need to be immediate */
+ { iF,                "\x83" "if",NULL},
+ { theN,              "\x85" "then",NULL},
+ { elsE,              "\x85" "else",NULL},
+ { foR,               "\x84" "for",NULL},
+ { nexT,              "\x85" "next",NULL},
+ { ahead,             "\x86" "ahead",NULL},
+ { fstring,            "\x87" "string",NULL},
+ { dO,                "\x83" "do",NULL},
+ { looP,              "\x85" "loop",NULL},
+ { begiN,             "\x86" "begin",NULL},
+ { agaiN,             "\x86" "again",NULL},
+ { whilE,             "\x86" "while",NULL},
+ { repeaT,            "\x87" "repeat",NULL},
+ { dotQuoteBar,       "\x4" ".\"|",NULL},
+ { dotQuote,          "\x83" ".\"" ,NULL},
+ { dollarQuote,       "\x83" "$\"" ,NULL},
+ { doDollar,           "\x4" "do$",NULL},
+ { dollarQuoteBar,     "\x4" "$\"|",NULL},
+ { eye,                "\x2" "i",NULL},
+ { jay,                "\x2" "j",NULL},
+#ifndef SECURE
+ { lasT,               "\x5" "last",NULL},
+#endif
+ { allot,              "\x6" "allot",NULL},
+ { chaR,               "\x85" "char",NULL},
+ { quote,              "\x82" "\"",NULL},
+ { record,              "\x7" "start:",NULL},
+ { variable,           "\x89" "variable",NULL},
+ { constant,           "\x89" "constant",NULL},
+ { variableComma,      "\xA" "variable,",NULL},
+ { constantComma,      "\xA" "constant,",NULL},
+ { tickeval,           "\x6" "'eval",NULL},
+#ifndef SECURE
+ { createDefine,       "\x7" "define",NULL},
+#endif
+ { leftParen,          "\x82" "(",NULL},
+ { literal,            "\x88" "literal",NULL},
+ { base,               "\x5" "base",NULL},
+#ifndef SECURE
+ { handler,            "\x8" "handler",NULL},
+ { getUserBase,        "\x5" "user",NULL},
+#endif
+ { huh,                "\x4" "huh",NULL},
+ { tempStringBuffer,   "\x4" "tmp",NULL},
+ { stringDollar,       "\x8" "string$",NULL},
+#ifndef SECURE
+#ifdef USE_SD_FILE
+ { openFile,           "\x5" "open",NULL},
+ { closeFile,          "\x6" "close",NULL},
+#endif
+#ifdef USE_FLASH_NOVRAM
+ { novramOpenFile,     "\xA" "flashOpen",NULL},
+ { novramCloseFile,    "\xB" "flashClose",NULL},
+ #endif
+#endif
+ // wordlist stuff
+ { createWordList,     "\x89" "wordlist",NULL},
+ { freeWordList,       "\x89" "freelist",NULL},
+ { definitions,        "\xC" "definitions",NULL},
+ { forthWordList,      "\xF" "forth-wordlist",NULL},
+ { getCurrent,         "\xC" "get-current",NULL},
+ { getOrder,           "\xA" "get-order",NULL},
+ { searchWordList,     "\x10" "search-wordlist",NULL},
+ { setCurrent,         "\xC" "set-current",NULL},
+ { setOrder,           "\xA" "set-order",NULL},
+ { also,               "\x5" "also",NULL},
+ { forth,              "\x6" "forth",NULL},
+ { only,               "\x5" "only",NULL},
+ { order,              "\x6" "order",NULL},
+ { previous,           "\x89" "previous",NULL},
+ { addToOrder,         "\xD" "add-to-order",NULL},
+ { restrictToCurrent,  "\x89" "restrict",NULL},
+ { restrictToCurrentNumber,  "\x8A" "#restrict",NULL},
+ { wordsInWordList,    "\xB" "some-words",NULL},
+ { beQuiet,            "\x6" "quiet",NULL},
+ { beLoud,             "\x5" "loud",NULL},
+ { doDelay,            "\x6" "delay",NULL},
+ { dictStatus,         "\x7" "status",NULL},
+ { addExternalWords,   "\xB" "add_extern",NULL},
+ { dotHelp  ,          "\x5" "help",NULL},
+ { startOtherThreads,  "\x9" "startall",NULL},
+ { semaphoreAt,        "\x6" "sema@",NULL},
+
+    
+    { NULL,              NULL}
+#else
+ /* function         counted string with lexicon bits */
+ { NULL,              NULL},
+#ifndef SECURE
+ { spat,              "\x4" "sp@"},
+ { spstore,           "\x4" "sp!"},
+ { rpat,              "\x4" "rp@"},
+ { rat,               "\x3" "r@"},
+ { rpstore,           "\x4" "rp!"},
+ { spzero,            "\x4" "sp0"},
+ { rpzero,            "\x4" "rp0"},
+#endif
+ { rot,               "\x4" "rot"},
+ { swap,              "\x5" "swap"},
+ { dupp,              "\x4" "dup"},
+ { over,              "\x5" "over"},
+ { twoDup,            "\x5" "2dup"},
+ { nip,               "\x4" "nip"},
+ { twoDrop,           "\x6" "2drop"},
+ { pick,              "\x5" "pick"},
+ { at,                "\x2" "@"},
+ { bang,              "\x2" "!"},
+ { charbang,          "\x3" "c!"},
+ { charat,            "\x3" "c@"},
+ { wordat,            "\x3" "w@"},
+ { wordbang,          "\x3" "w!"},
+#ifndef SECURE
+ { copy,              "\x5" "copy"},
+#endif
+ { fill,              "\x5" "fill"},
+ { subscribe,         "\xA" "subscribe"},
+ { hex,               "\x4" "hex"},
+ { decimal,           "\x8" "decimal"},
+ { dot,               "\x2" "."},
+ { dotNoSpace,        "\x3" ".."},
+#ifdef USE_FLOAT
+ { fdot,              "\x3" "f."},
+ { fdotdot,           "\x4" "f.."},
+ { edot,              "\x3" "e."},
+ { ffdot,             "\x4" "ff."},
+ { ffdotdot,             "\x5" "ff.."},
+ { fgreater,          "\x3" "f>"},
+ { fless,             "\x3" "f<"},
+ { fequal,            "\x3" "f="},
+ { flessThanOrEqual,  "\x4" "f<="},
+ { fgreaterThanOrEqual,"\x4" "f>="},
+ { fplus,             "\x3" "f+"},
+ { fminus,            "\x3" "f-"},
+ { ftimes,            "\x3" "f*"},
+ { fdivide,           "\x3" "f/"},
+ { fAbs,              "\x5" "fabs"},
+ { fNegate,           "\x3" "-f"},
+ { fItoF,             "\x4" "i>f"},
+ { fFtoI,             "\x4" "f>i"},
+ { fTrunc,            "\x7" "ftrunc"},
+ { fRound,            "\x7" "fround"},
+ { fPi,               "\x3" "pi"},
+ { fSin,              "\x4" "sin"},
+ { fCos,              "\x4" "cos"},
+ { fTan,              "\x4" "tan"},
+ { farcSin,           "\x5" "asin"},
+ { farcCos,           "\x5" "acos"},
+ { farcTan,           "\x5" "atan"},
+ { fPower,            "\x4" "pow"},
+ { fSqrt,             "\x5" "sqrt"},
+ { fCeil,             "\x5" "ceil"},
+ { fFloor,            "\x6" "floor"},
+ { fExp,              "\x4" "exp"},
+ { fLog,              "\x4" "log"},
+ { fRadiansToDegrees, "\x4" "r>d"},
+ { fDegreesToRadians, "\x4" "d>r"},
+#ifdef USE_MATRIX
+  {mDotProduct,                   "\x4" "dot"},
+  {mDotProduct3D,                 "\x6" "dot3d"},
+  {mCrossProduct,                 "\x6" "cross"},
+  {mVectorMultByElement,          "\x6" "v*v>v"},
+  {mNotZero,                      "\x4" "neq"},
+  {mNormalize,                    "\x5" "norm"},
+  {mNormalize4D,                  "\x7" "norm4d"},
+  {mBuildMatrix,                  "\xC" "buildMatrix"},
+  {mGenerateRotationMatrix,       "\xD" "genRotMatrix"},
+  {mMatrixVectorMultiply,         "\x6" "m*v>v"},
+  {mMatrixVectorMultiplyResult,   "\x6" "m*v>r"},
+  {mScalarVectorMultiply,         "\x6" "s*v>r"},
+  {mScalarMatrixMultiply,         "\x6" "s*m>r"},
+  {mVectorCopy,                   "\x4" "v>v"},
+  {mVectorsAreEqual,              "\x4" "v=v"},
+  {mMatrixCopy,                   "\x4" "m>m"},
+  {mMatrixTranspose,              "\x5" "T(m)"},
+  {mVectorClear,                  "\x9" "clear(v)"},
+  {mVectorAdd,                    "\x6" "v+v>r"},
+  {mVectorSub,                    "\x6" "v-v>r"},
+  {mComputeVectorMagnitude,       "\x4" "|v|"},
+  {mVectorMagnitude,              "\x9" "v[3]=|v|"},
+  {mComputeVectorMagnitude2D,     "\x6" "|x,y|"},
+  {mMatrixClear,                  "\x9" "clear(m)"},
+  {mSetIdentity,                  "\x4" "m=I"},
+  {mMatrixMultiply,               "\x6" "m*m>r"},
+  {mMatrixInverse,                "\x7" "inv(m)"},
+  {mMatrixPrint,                  "\x3" "m."},
+  {mMatrixPrintDotF,              "\x4" "m.f"},
+  {mVectorPrint,                  "\x3" "v."},
+  {mVectorPrintDotF,              "\x4" "v.f"},
+#endif
+#endif
+ { dots,              "\x3" ".s"},
+ { and,               "\x4" "and"},
+ { andand,            "\x3" "&&"},
+ { or,                "\x3" "or"},
+ { oror,              "\x3" "||"},
+ { not,               "\x4" "not"},
+ { lnot,              "\x3" "!="},
+ { drop,              "\x5" "drop"},
+ { shl,               "\x3" "<<"},
+ { shr,               "\x3" ">>"},
+ { plus,              "\x2" "+"},
+ { minus,             "\x2" "-"},
+ { times,             "\x2" "*"},
+ { multiplySigned,    "\x3" "s*"},
+ { divide,            "\x2" "/"},
+ { divideSigned,      "\x3" "s/"},
+ { toByteAddress,     "\x6" "ci>ba"},
+ { xor,               "\x4" "xor"},
+ { slashMod,          "\x5" "/mod"},
+ { mod,               "\x4" "mod"},
+ { forget,            "\x7" "forget"},
+ { words,             "\x6" "words"},
+ { igrep,             "\x5" "grep"},
+ { igrep,             "\x6" "igrep"},
+ { grep,              "\x6" "sgrep"},
+ { doLOOP,            "\x7" "doLOOP"},
+ { qbranch,           "\x8" "qbranch"},
+ { branch,            "\x7" "branch"},
+ { doLOOP,            "\x7" "doLOOP"},
+ { bye,               "\x4" "bye"},
+ { doLIT,             "\x6" "doLIT"},
+ { next,              "\x5" "next"},
+ { exiT,              "\x5" "exit"},
+#ifndef SECURE
+ { execute,           "\x8" "execute"},
+ { atExecute,         "\x9" "@execute"},
+#endif
+ { digit,             "\x6" "digit"},
+ { extract,           "\x8" "extract"},
+ { lessPound,         "\x3" "<#"},
+ { hold,              "\x5" "hold"},
+ { pound,             "\x2" "#"},
+ { poundS,            "\x3" "#s"},
+#ifdef USE_FLOAT
+ { floatPoundS,       "\x5" "#w.f"},
+ { floatPoundSFree,   "\x3" "#f"},
+ { floatPoundSE,      "\x3" "#e"},
+#endif
+ { sign,              "\x5" "sign"},
+ { count,             "\x6" "count"},
+ { dotId,             "\x4" ".id"},
+ { type,              "\x5" "type"},
+ { poundGreater,      "\x3" "#>"},
+#ifndef SECURE
+ { toR,               "\x3" ">r"},
+ { fromR,             "\x3" "r>"},
+#endif
+ { PARSE,             "\x6" "parse"},
+ { toIN,              "\x4" ">in"},
+ { plusBang,          "\x3" "+!"},
+ { backSlash,         "\x82" "\\"},   /* immediate bit set */
+ { backSlash,         "\x83" "//"},   /* immediate bit set */
+ { tokeN,             "\x6" "token"},
+#ifndef SECURE
+ { here,              "\x5" "here"},
+#endif
+ { emit,              "\x5" "emit"},
+ { key,               "\x4" "key"},
+#ifndef SECURE
+ { packDollar,        "\x6" "pack$"},
+ { sameQ,             "\x6" "same?"},
+ { find,              "\x5" "find"},
+ { nameQ,             "\x6" "name?"},
+ { nameQW,            "\x7" "name?w"},
+ { nameTo,            "\x6" "name>"},
+ { toName,            "\x6" ">name"},
+ { nameToText,        "\xA" "name>text"},
+#endif
+ { query,             "\x6" "query"},
+ { dotPrompt,         "\x4" ".ok"},
+ { forthVerboseMode,         "\x8" "verbose"},
+ { numberQ,           "\x8" "number?"},
+ { defineQ,           "\x8" "define?"},
+ { qDup,              "\x5" "?dup"},
+ { space,             "\x6" "space"},
+ { colon,             "\x2" ":"},
+ { semiColon,         "\x82" ";"},
+ { leftBracket,       "\x82" "["},
+ { rightBracket,      "\x82" "]"},
+ { arrayBranch,       "\x88" "abranch"},
+ { arrayAhead,        "\x87" "aahead"},
+ { arrayStart,        "\x87" "array["},
+ { arrayEnd,          "\x87" "]array"},
+ { arrayPut,          "\x83" "a!"}, // changed from array!
+#ifndef SECURE
+ { dollarCommaN,      "\x4" "$,n"},
+ { dollarCommaNFinish,"\x4" "n,$"},
+ { comma,             "\x2" ","},
+ { colonComma,        "\x3" ":,"},
+#endif
+ { dumP,              "\x5" "dump"},
+#ifndef SECURE
+ { compile,           "\x8" "compile"},
+#endif
+ #ifdef COMPILED_ROOT
+ /* a special word to allow bracket compile to work at startup */
+#ifndef SECURE
+ { bracketCompile,    "\x8A" "[compile]"},
+ { iLiteral,          "\x89" "iLiteral"},
+ { iString,           "\x88" "iString"},
+#endif
+ #endif
+ { immediate,         "\x8A" "immediate"},
+ { cr,                "\x3" "cr"},
+ { blank,             "\x3" "bl"},
+#ifndef SECURE
+ { see,               "\x4" "see"},
+#endif
+ { qKey,               "\x5" "?key"},
+ { lessThan,           "\x2" "<"},
+ { greaterThan,        "\x2" ">"},
+ { absolute,           "\x4" "abs"},
+ { equals,             "\x2" "="},
+ { negate,            "\x7" "negate"},
+ { lessThanZero,      "\x3" "0<"},
+ { greaterThanZero,   "\x3" "0>"},
+ { equalsZero,        "\x3" "0="},
+ /* runtime control words */
+ { next,              "\x5" "next"},
+ { doLOOP,            "\x7" "doLOOP"},
+ { plusLoop,          "\x6" "+LOOP"},
+ /* compiling words */
+ /* need to be immediate */
+ { iF,                "\x83" "if"},
+ { theN,              "\x85" "then"},
+ { elsE,              "\x85" "else"},
+ { foR,               "\x84" "for"},
+ { nexT,              "\x85" "next"},
+ { ahead,             "\x86" "ahead"},
+ { fstring,            "\x87" "string"},
+ { dO,                "\x83" "do"},
+ { looP,              "\x85" "loop"},
+ { begiN,             "\x86" "begin"},
+ { agaiN,             "\x86" "again"},
+ { whilE,             "\x86" "while"},
+ { repeaT,            "\x87" "repeat"},
+ { dotQuoteBar,       "\x4" ".\"|"},
+ { dotQuote,          "\x83" ".\"" },
+ { dollarQuote,       "\x83" "$\"" },
+ { doDollar,           "\x4" "do$"},
+ { dollarQuoteBar,     "\x4" "$\"|"},
+ { eye,                "\x2" "i"},
+ { jay,                "\x2" "j"},
+#ifndef SECURE
+ { lasT,               "\x5" "last"},
+#endif
+ { allot,              "\x6" "allot"},
+ { chaR,               "\x85" "char"},
+ { quote,              "\x82" "\""},
+ { record,              "\x7" "start:"},
+ { variable,           "\x89" "variable"},
+ { constant,           "\x89" "constant"},
+ { variableComma,      "\xA" "variable,"},
+ { constantComma,      "\xA" "constant,"},
+ { tickeval,           "\x6" "'eval"},
+#ifndef SECURE
+ { createDefine,       "\x7" "define"},
+#endif
+ { leftParen,          "\x82" "("},
+ { literal,            "\x88" "literal"},
+ { base,               "\x5" "base"},
+#ifndef SECURE
+ { handler,            "\x8" "handler"},
+ { getUserBase,        "\x5" "user"},
+#endif
+ { huh,                "\x4" "huh"},
+ { tempStringBuffer,   "\x4" "tmp"},
+#ifdef USE_SD_FILE
+ { openFile,           "\x5" "open"},
+ { closeFile,          "\x6" "close"},
+#endif
+ // wordlist stuff
+ { createWordList,     "\x89" "wordlist"},
+ { freeWordList,       "\x89" "freelist"},
+ { definitions,        "\xC" "definitions"},
+ { forthWordList,      "\xF" "forth-wordlist"},
+ { getCurrent,         "\xC" "get-current"},
+ { getOrder,           "\xA" "get-order"},
+ { searchWordList,     "\x10" "search-wordlist"},
+ { setCurrent,         "\xC" "set-current"},
+ { setOrder,           "\xA" "set-order"},
+ { also,               "\x5" "also"},
+ { forth,              "\x6" "forth"},
+ { only,               "\x5" "only"},
+ { order,              "\x6" "order"},
+ { previous,           "\x89" "previous"},
+ { addToOrder,         "\xD" "add-to-order"},
+ { restrictToCurrent,  "\x89" "restrict"},
+ { restrictToCurrentNumber,  "\x8A" "#restrict"},
+ { wordsInWordList,    "\xB" "some-words"},
+ { beQuiet,            "\x6" "quiet"},
+ { beLoud,             "\x5" "loud"},
+ { doDelay,            "\x6" "delay"},
+ { dictStatus,         "\x7" "status"},
+ { addExternalWords,   "\xB" "add_extern"},
+ { startOtherThreads,  "\x9" "startall"},
+ { semaphoreAt,        "\x6" "sema@"},
+
+    
+    { NULL,              NULL}
+#endif // if use help
