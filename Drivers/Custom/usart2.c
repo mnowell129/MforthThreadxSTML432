@@ -95,11 +95,16 @@ SOFTWARE.*/
 #define USARTRXSEMA                    usart2ReceiveTaskSyncSemaphore
 #define USARTTXSEMA                    usart2TransmitTaskSyncSemaphore
 #define USARTSHARESEMA                 usart2SharingSemaphore
+#define USARTCLOCKSOURCE               LL_RCC_USART2_CLKSOURCE_PCLK1
 
+#define usart2ReceiveTaskSyncSemaphore_NAME       "usart2Rx"
+#define usart2TransmitTaskSyncSemaphore_NAME      "usart2Tx"
+#define usart2SharingSemaphore_NAME               "usart2Lock"
+ 
 
 RTOS_SEMA_OBJECT_STATIC(USARTRXSEMA);
 RTOS_SEMA_OBJECT_STATIC(USARTTXSEMA);
-RTOS_SEMA_OBJECT_STATIC(USARTMUTEXSEMA);
+RTOS_SEMA_OBJECT_STATIC(USARTSHARESEMA);
 
 
 #define RECEIVE_BUFFER_SIZE  1024
@@ -133,11 +138,7 @@ static void clearAllIndicies(void)
 static uint8_t usartRxBuffer[RECEIVE_BUFFER_SIZE];
 static uint8_t usartTxBuffer[TRANSMIT_BUFFER_SIZE];
 
-static volatile uint32_t usartStatus;
-
 static bool usartSemaphoresCreated;
-
-
 
 
 #define TRANSMITTER_IRQ_ENABLED(a)  ((a->CR1 & USART_CR1_TCIE)!= 0 ? true : false)
@@ -294,13 +295,15 @@ bool USARTINIT(uint32_t baudRate)
    {
       SEMA_CREATE_COUNTING_LITERAL(USARTRXSEMA,RECEIVE_BUFFER_SIZE,0);
       SEMA_CREATE_COUNTING_LITERAL(USARTTXSEMA,TRANSMIT_BUFFER_SIZE,0);
-      SEMA_CREATE_COUNTING_LITERAL(USARTMUTEXSEMA,1024,1);
+      SEMA_CREATE_COUNTING_LITERAL(USARTSHARESEMA,1024,1);
       usartSemaphoresCreated = true;
    }
 
    // initialize the GPIOS dedicated to this usart
-   //GPIO_INIT_AS_ALTERNATE(HOST_TX);
-   //GPIO_INIT_AS_ALTERNATE(HOST_RX);
+   GPIO_INIT_AS_ALTERNATE(VCP_TX);
+   GPIO_INIT_AS_ALTERNATE(VCP_RX);
+
+   LL_RCC_SetUSARTClockSource(USARTCLOCKSOURCE);
 
    /* Enable USARTx clock */
    SET_BIT(USART_RCC_REG,USART_RCC_BIT);
@@ -354,7 +357,7 @@ void USARTSTOP(void)
    // on the semaphores.
    SEMA_CREATE_COUNTING_LITERAL(USARTRXSEMA,RECEIVE_BUFFER_SIZE,0);
    SEMA_CREATE_COUNTING_LITERAL(USARTTXSEMA,TRANSMIT_BUFFER_SIZE,0);
-   SEMA_CREATE_COUNTING_LITERAL(USARTMUTEXSEMA,1024,1);
+   SEMA_CREATE_COUNTING_LITERAL(USARTSHARESEMA,1024,1);
 
 
 }
@@ -364,7 +367,7 @@ void USARTPUTCH(uint8_t value)
 
    volatile    CONTEXT;
 
-   SEMA_GET(USARTMUTEXSEMA,WAIT_FOREVER,error);
+   SEMA_GET(USARTSHARESEMA,WAIT_FOREVER,error);
    ENTER_CRITICAL();
    if(usartTxCount == 0)
    {
@@ -411,7 +414,7 @@ void USARTPUTCH(uint8_t value)
       }
       EXIT_CRITICAL();
    }
-   SEMA_PUT(USARTMUTEXSEMA);
+   SEMA_PUT(USARTSHARESEMA);
 }
 
 void USARTSEND(uint8_t *bufferPtr, uint32_t length)

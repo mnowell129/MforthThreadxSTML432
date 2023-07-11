@@ -1,3 +1,5 @@
+// This was found at https://github.com/weiss/c99-snprintf/blob/master/snprintf.c
+
 /* $Id: snprintf.c,v 1.9 2008/01/20 14:02:00 holger Exp $ */
 
 /*
@@ -176,12 +178,16 @@
 
 
 #define ULLONG unsigned long int
+#ifndef __ICCARM__       /* IAR Compiler */
 #define __UINTMAX_T_TYPE__ unsigned long long int
+#endif
 #define UINTMAX_T __UINTMAX_T_TYPE__
 // #define UINTMAX_MAX ULLONG_MAX
 #define LDOUBLE long double
 #define LLONG long long int
+#ifndef __ICCARM__       /* IAR Compiler */
 #define __INTMAX_T_TYPE__  long long int
+#endif
 #define INTMAX_T __INTMAX_T_TYPE__
 #define UINTPTR_T unsigned long int
 #define PTRDIFF_T long int

@@ -64,6 +64,49 @@ TX_QUEUE tx_app_msg_queue;
 
 // second forth instance attached to VCP
 
+// Some helpful forth words
+extern TX_THREAD *     _tx_thread_created_ptr;
+
+void stackCheck(FCONTEXT)
+{
+   TX_THREAD *threadPtr;
+   TX_THREAD *rootPtr;
+   uint32_t   *startPoint,*stopPoint;
+   int32_t    unusedCounter;
+   int32_t    stackSize;
+   // FPRINTF("Root task list %x\r\n",_tx_thread_created_ptr);
+   threadPtr = rootPtr = _tx_thread_created_ptr;
+   FPRINTF("\r\n");
+   while(1)
+   {
+      FPRINTF("Thread %s B:E:Now (depth) %x %x %x (%d)-- ",threadPtr->tx_thread_name,threadPtr->tx_thread_stack_start,threadPtr->tx_thread_stack_end,
+              threadPtr->tx_thread_stack_ptr,(int32_t)(threadPtr->tx_thread_stack_end)
+               - (int32_t)(threadPtr->tx_thread_stack_ptr));
+      startPoint = (uint32_t*)(threadPtr->tx_thread_stack_start);
+      stopPoint = (uint32_t*)(threadPtr->tx_thread_stack_end);
+      stackSize = (int32_t)(threadPtr->tx_thread_stack_size);
+      unusedCounter = 0;
+      while(startPoint != stopPoint)
+      {
+         if(*startPoint != TX_STACK_FILL)
+         {
+            break;
+         }
+         unusedCounter++;
+         startPoint++;
+      }
+      FPRINTF("Free %d of %d (%.1f%%)\r\n",unusedCounter,
+              stackSize,100.0f*(float)(unusedCounter)/(float)(stackSize));
+      threadPtr = threadPtr->tx_thread_created_next;
+      if(threadPtr == rootPtr)
+      {
+         break;
+      }
+   }
+}
+
+
+
 UserState _userVCP;
 UserStatePtr userVCP = &(_userVCP);
 
@@ -72,6 +115,7 @@ const char startStringVCP[] =
    "1000 10 wordlist vcplist\n"\
    "vcplist add-to-order definitions\n"\
    "quiet\n"\
+   ".ok\n"\
    "\x04";
 
 
@@ -84,26 +128,14 @@ uint32_t  padBufferVCP[VCP_PAD_SIZE];
 
 
 #define forthVCP_PRIORITY    5
-#define forthVCP_STACK_SIZE  512
+#define forthVCP_STACK_SIZE  1024
+#define forthVCP_NAME        "forth VCP"
 TASK_DATA(forthVCP);
 
 
 void forthVCPFunction(ULONG threadInput)
 {
    cloneRootUser(userVCP,startStringVCP,2);
-
-#if 0
-   while(1)
-   {
-	   printf2("hello\r\n");
-	   RTOS_MSEC_DELAY(400);
-	      if(usart2CharReady())
-	      {
-	         printf2("%c",usart2Getch());
-	      }
-
-   }
-#endif
    userVCP->userVariables.namedVariables.userPrintf = usart2Printf;
    userVCP->userVariables.namedVariables.userPuts =  (PutSType)usart2Puts;
    userVCP->userVariables.namedVariables.userPutch = (PutchType)usart2Putch;
@@ -117,6 +149,7 @@ void forthVCPFunction(ULONG threadInput)
    userVCP->userVariables.namedVariables.tibSize = VCP_TIB_SIZE;
    userVCP->userVariables.namedVariables.padSize = VCP_PAD_SIZE;
 
+   usart2Printf("ok>\r\n");
    runForth(userVCP);
 }
 
@@ -129,10 +162,12 @@ const char startString1[] =
    "add_extern\n"\
    "startall\n"\
    "quiet\n"\
+   ".ok\n"\
    "\x04";
 
 void addExternalWords(FCONTEXT)
 {
+   addWord(user,stackCheck,"stack.");
 }
 
 void startOtherThreads(FCONTEXT)
@@ -219,7 +254,7 @@ void tx_app_thread_entry(ULONG thread_input)
    usart1Init(115200);
    usart2Init(115200);
 
-   usart2Printf("Hello world\r\n");
+   // usart2Printf("Hello world\r\n");
    GPIO_INIT_AS_OUT(GREEN_LED);
 
    initCoreForth(startString1);
@@ -229,6 +264,7 @@ void tx_app_thread_entry(ULONG thread_input)
    user1->userVariables.namedVariables.tibSize = USER_TIB_SIZE;
    user1->userVariables.namedVariables.padSize = USER_PAD_SIZE;
 
+   usart1Printf("ok>\r\n");
    runForth(user1);
 
 

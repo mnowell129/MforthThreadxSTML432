@@ -84,6 +84,9 @@
    <List Name="RTE">
    </List>
    <Files AutoFolders="DirectoryView">
+      <Folder Name=".settings">
+         <F N=".settings/language.settings.xml"/>
+      </Folder>
       <Folder Name="AZURE_RTOS">
          <Folder Name="App">
             <F N="AZURE_RTOS/App/app_azure_rtos.c"/>
@@ -126,6 +129,9 @@
          <Folder Name="Startup">
             <F N="Core/Startup/startup_stm32l432kcux.s"/>
          </Folder>
+      </Folder>
+      <Folder Name="Debug">
+         <F N="Debug/macrotest.p"/>
       </Folder>
       <Folder Name="Drivers">
          <Folder Name="CMSIS">
@@ -180,6 +186,25 @@
             <F N="Drivers/Custom/usart1.h"/>
             <F N="Drivers/Custom/usart2.c"/>
             <F N="Drivers/Custom/usart2.h"/>
+         </Folder>
+         <Folder Name="mForth">
+            <F N="Drivers/mForth/asswords.c"/>
+            <F N="Drivers/mForth/asswords.h"/>
+            <F N="Drivers/mForth/bits.h"/>
+            <F N="Drivers/mForth/coredefs.h"/>
+            <F N="Drivers/mForth/corewords.c"/>
+            <F N="Drivers/mForth/corewords.h"/>
+            <F N="Drivers/mForth/dos.c"/>
+            <F N="Drivers/mForth/dos.h"/>
+            <F N="Drivers/mForth/float.c"/>
+            <F N="Drivers/mForth/float.h"/>
+            <F N="Drivers/mForth/forth.c"/>
+            <F N="Drivers/mForth/forth.h"/>
+            <F N="Drivers/mForth/forthconfig_sample.h"/>
+            <F N="Drivers/mForth/forthos.h"/>
+            <F N="Drivers/mForth/ftypes.h"/>
+            <F N="Drivers/mForth/words.c"/>
+            <F N="Drivers/mForth/words.h"/>
          </Folder>
          <Folder Name="STM32L4xx_HAL_Driver">
             <Folder Name="Inc">
@@ -262,25 +287,6 @@
          </Folder>
       </Folder>
       <Folder Name="Middlewares">
-         <Folder Name="mForth">
-            <F N="Middlewares/mForth/asswords.c"/>
-            <F N="Middlewares/mForth/asswords.h"/>
-            <F N="Middlewares/mForth/bits.h"/>
-            <F N="Middlewares/mForth/coredefs.h"/>
-            <F N="Middlewares/mForth/corewords.c"/>
-            <F N="Middlewares/mForth/corewords.h"/>
-            <F N="Middlewares/mForth/dos.c"/>
-            <F N="Middlewares/mForth/dos.h"/>
-            <F N="Middlewares/mForth/float.c"/>
-            <F N="Middlewares/mForth/float.h"/>
-            <F N="Middlewares/mForth/forth.c"/>
-            <F N="Middlewares/mForth/forth.h"/>
-            <F N="Middlewares/mForth/forthconfig_sample.h"/>
-            <F N="Middlewares/mForth/forthos.h"/>
-            <F N="Middlewares/mForth/ftypes.h"/>
-            <F N="Middlewares/mForth/words.c"/>
-            <F N="Middlewares/mForth/words.h"/>
-         </Folder>
          <Folder Name="ST">
             <Folder Name="threadx">
                <Folder Name="common">

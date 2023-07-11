@@ -30,6 +30,7 @@ void MX_USART1_UART_Init(void)
 {
 
   /* USER CODE BEGIN USART1_Init 0 */
+   return; // don't use cube code to confirm device driver
 
   /* USER CODE END USART1_Init 0 */
 
@@ -84,6 +85,7 @@ void MX_USART2_UART_Init(void)
 
   /* USER CODE BEGIN USART2_Init 0 */
 
+   return; // don't use cube code to confirm device driver
   /* USER CODE END USART2_Init 0 */
 
   LL_USART_InitTypeDef USART_InitStruct = {0};

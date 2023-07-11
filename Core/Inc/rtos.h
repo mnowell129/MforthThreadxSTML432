@@ -117,13 +117,16 @@ __attribute__( ( always_inline ) ) static inline void __restore_interrupt(unsign
    #define EXTERN_RTOS_SEMA_OBJECT(a)                extern TX_SEMAPHORE *a;extern TX_SEMAPHORE a##Data
    #define RTOS_SEMA_DATA(a)                         TX_SEMAPHORE  a##Data
                                                     
-   #define SEMA_CREATE(a)                            tx_semaphore_create(a, "semaphore", a##_INITIAL)
-   #define SEMA_CREATE_STATIC(a)                     tx_semaphore_create(a, "semaphore", a##_INITIAL)
-   #define SEMA_CREATE_COUNTING(a,max,initial)       tx_semaphore_create(a, "semaphore", a##_INITIAL)
-   #define SEMA_CREATE_COUNTING_LITERAL(a,max,initial)       tx_semaphore_create(a, "semaphore",initial)
-   #define SEMA_CREATE_BINARY(a)                     tx_semaphore_create(a, "semaphore", 1)
-   #define SEMA_CREATE_BINARY_STATIC(a)              tx_semaphore_create(a, "semaphore", 1)
-   #define SEMA_CREATE_BINARY_STATIC_NO_GIVE(a)      tx_semaphore_create(a, "semaphore", 0)
+   #define SEMA_CREATE(a)                            tx_semaphore_create(a, a##_NAME, a##_INITIAL)
+   #define SEMA_CREATE_STATIC(a)                     tx_semaphore_create(a, a##_NAME, a##_INITIAL)
+   #define SEMA_CREATE_COUNTING(a,max,initial)       tx_semaphore_create(a, a##_NAME, a##_INITIAL)
+//   #define 
+   #define _NAME(a)                                  a##_NAME
+   #define NAME(a)                                   _NAME(a)
+   #define SEMA_CREATE_COUNTING_LITERAL(a,max,initial)       tx_semaphore_create(a,NAME(a),initial)
+   #define SEMA_CREATE_BINARY(a)                     tx_semaphore_create(a, a##_NAME, 1)
+   #define SEMA_CREATE_BINARY_STATIC(a)              tx_semaphore_create(a, a##_NAME, 1)
+   #define SEMA_CREATE_BINARY_STATIC_NO_GIVE(a)      tx_semaphore_create(a, a##_NAME, 0)
 
    #define SEMA_GET(a,t,e)                           e = tx_semaphore_get(a,t)
    #define SEMA_GET_WAIT_FOREVER(a)                  tx_semaphore_get(a,WAIT_FOREVER) 
@@ -143,7 +146,7 @@ __attribute__( ( always_inline ) ) static inline void __restore_interrupt(unsign
    #define COMMON_QUEUE_SIZE 4
 
 
-   #define QUEUE_CREATE(a)                           tx_queue_create(a, "queue", 1,a##Array, a##_DEPTH * sizeof(ULONG))
+   #define QUEUE_CREATE(a)                           tx_queue_create(a, a##_NAME, 1,a##Array, a##_DEPTH * sizeof(ULONG))
    #define QUEUE_GET(a,pData,t,e)       e = tx_queue_receive(a,(void *)&(pData),t)
    //    #define QUEUE_QUERY(a,pData,t,e)  ???   e = xQueuePeek(a,(void *)&(pData),t)
    #define QUEUE_PUT(a,pData,t,e)       e = tx_queue_send(a,(void*)&(pData),t)
@@ -168,11 +171,11 @@ __attribute__( ( always_inline ) ) static inline void __restore_interrupt(unsign
 
 
 
-   #define CREATE_THREAD_WITH_CHECK(name,params,function)   (tx_thread_create(name##TaskPtr, "thread", function, params, (uint8_t*)name##StackData,\
+   #define CREATE_THREAD_WITH_CHECK(name,params,function)   (tx_thread_create(name##TaskPtr, name##_NAME, function, params, (uint8_t*)name##StackData,\
                        name##_STACK_SIZE, name##_PRIORITY, name##_PRIORITY,\
                        TX_NO_TIME_SLICE, TX_AUTO_START)!= TX_SUCCESS)
 
-   #define CREATE_THREAD(name,params,function)   tx_thread_create(name##TaskPtr, "thread", function, params, (uint8_t*)name##StackData,\
+   #define CREATE_THREAD(name,params,function)   tx_thread_create(name##TaskPtr, name##_NAME, function, params, (uint8_t*)name##StackData,\
                        name##_STACK_SIZE, name##_PRIORITY, name##_PRIORITY,\
                        TX_NO_TIME_SLICE, TX_AUTO_START)
 

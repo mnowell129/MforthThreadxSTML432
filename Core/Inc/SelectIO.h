@@ -47,6 +47,39 @@
 #define HOST_RX_PIN_SPEED                LL_GPIO_SPEED_FREQ_VERY_HIGH
 
 
+// Virtual com port on STLINK
+
+#define VCP_TX                          VCP_TX
+#define VCP_TX_ENABLE_FN                LL_AHB2_GRP1_EnableClock 
+#define VCP_TX_ENABLE_SELECT            LL_AHB2_GRP1_PERIPH_GPIOA
+#define VCP_TX_PORT_NAME                A
+#define VCP_TX_PORT_BASE                GPIOA
+#define VCP_TX_PIN_MASK                 LL_GPIO_PIN_2
+#define VCP_TX_PIN_MODE                 LL_GPIO_MODE_ALTERNATE
+#define VCP_TX_AF_NUMBER                LL_GPIO_AF_7
+#define VCP_TX_PIN_INIT_STATE           SIGNAL_LOW
+#define VCP_TX_PIN_ACTIVE_STATE         SIGNAL_HIGH
+#define VCP_TX_PIN_INACTIVE_STATE       SIGNAL_LOW
+#define VCP_TX_PIN_DRIVE                LL_GPIO_OUTPUT_PUSHPULL
+#define VCP_TX_PIN_PULLSTATE            LL_GPIO_PULL_NO
+#define VCP_TX_PIN_SPEED                LL_GPIO_SPEED_FREQ_VERY_HIGH
+
+#define VCP_RX                          VCP_RX
+#define VCP_RX_ENABLE_FN                LL_AHB2_GRP1_EnableClock 
+#define VCP_RX_ENABLE_SELECT            LL_AHB2_GRP1_PERIPH_GPIOA
+#define VCP_RX_PORT_NAME                A
+#define VCP_RX_PORT_BASE                GPIOA
+#define VCP_RX_PIN_MASK                 LL_GPIO_PIN_15
+#define VCP_RX_PIN_MODE                 LL_GPIO_MODE_ALTERNATE
+#define VCP_RX_AF_NUMBER                LL_GPIO_AF_3
+#define VCP_RX_PIN_INIT_STATE           SIGNAL_LOW
+#define VCP_RX_PIN_ACTIVE_STATE         SIGNAL_HIGH
+#define VCP_RX_PIN_INACTIVE_STATE       SIGNAL_LOW
+#define VCP_RX_PIN_DRIVE                LL_GPIO_OUTPUT_PUSHPULL
+#define VCP_RX_PIN_PULLSTATE            LL_GPIO_PULL_NO
+#define VCP_RX_PIN_SPEED                LL_GPIO_SPEED_FREQ_VERY_HIGH
+
+
 #define GREEN_LED                        GREEN_LED
 #define GREEN_LED_ENABLE_FN              LL_AHB2_GRP1_EnableClock 
 #define GREEN_LED_ENABLE_SELECT          LL_AHB2_GRP1_PERIPH_GPIOB

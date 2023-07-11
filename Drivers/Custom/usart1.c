@@ -75,15 +75,21 @@ SOFTWARE.*/
 // Name a uart to make this easy to port to another usart, like usart2 for the VCP on
 // nucleo board.
 
+// How to convert to another UART
+
+// Change the 1 here to something else
 #define HARDWARE_UART                  USART1
 #define HARDWARE_UART_BASE             USART1_BASE
 #define HARDWARE_UART_IRQ              USART1_IRQn
+// Using user manual find the correct register for the UART to enable it
 #define USART_RCC_REG                  RCC->APB2ENR
+// Find the correct bit to set in the ST library.
 #define USART_RCC_BIT                  RCC_APB2ENR_USART1EN
 
-
-
-
+// To port change all the 1's to something else
+// Make sure in cubeMX you enabled the uart interrupt so it will be in
+// the cube ..it.c file with interrupt handlers, then patch that ISR
+// to call this ISR which has an _ on it, but similar name.
 #define USARTINIT                      usart1Init
 #define USARTISR                       _USART1_IRQHandler
 #define USARTSTOP                      usart1Stop
@@ -99,11 +105,17 @@ SOFTWARE.*/
 #define USARTRXSEMA                    usart1ReceiveTaskSyncSemaphore
 #define USARTTXSEMA                    usart1TransmitTaskSyncSemaphore
 #define USARTSHARESEMA                 usart1SharingSemaphore
+#define USARTCLOCKSOURCE               LL_RCC_USART1_CLKSOURCE_PCLK2
 
-
+// To port, change the names below and the symbols
+#define usart1ReceiveTaskSyncSemaphore_NAME       "usart1Rx"
+#define usart1TransmitTaskSyncSemaphore_NAME      "usart1Tx"
+#define usart1SharingSemaphore_NAME               "usart1Lock"
+// Most of the rest of the file is identical
+// However look for a comment with *PORT* in it
 RTOS_SEMA_OBJECT_STATIC(USARTRXSEMA);
 RTOS_SEMA_OBJECT_STATIC(USARTTXSEMA);
-RTOS_SEMA_OBJECT_STATIC(USARTMUTEXSEMA);
+RTOS_SEMA_OBJECT_STATIC(USARTSHARESEMA);
 
 
 #define RECEIVE_BUFFER_SIZE  1024
@@ -136,8 +148,6 @@ static void clearAllIndicies(void)
 // All static so multiple uarts can be reused easily
 static uint8_t usartRxBuffer[RECEIVE_BUFFER_SIZE];
 static uint8_t usartTxBuffer[TRANSMIT_BUFFER_SIZE];
-
-static volatile uint32_t usartStatus;
 
 static bool usartSemaphoresCreated;
 
@@ -298,18 +308,23 @@ bool USARTINIT(uint32_t baudRate)
    {
       SEMA_CREATE_COUNTING_LITERAL(USARTRXSEMA,RECEIVE_BUFFER_SIZE,0);
       SEMA_CREATE_COUNTING_LITERAL(USARTTXSEMA,TRANSMIT_BUFFER_SIZE,0);
-      SEMA_CREATE_COUNTING_LITERAL(USARTMUTEXSEMA,1024,1);
+      SEMA_CREATE_COUNTING_LITERAL(USARTSHARESEMA,1024,1);
       usartSemaphoresCreated = true;
    }
 
    // initialize the GPIOS dedicated to this usart
+   // *PORT*  modify for the hardware pin you intend to use.
    GPIO_INIT_AS_ALTERNATE(HOST_TX);
    GPIO_INIT_AS_ALTERNATE(HOST_RX);
+
+   LL_RCC_SetUSARTClockSource(USARTCLOCKSOURCE);
+
 
    /* Enable USARTx clock */
    SET_BIT(USART_RCC_REG,USART_RCC_BIT);
    // This system used basepri so we can have OS and NON OS using interrupts
    // the split for the OS is basepri 5, so encode the interrupt priority as priority 5
+   // *PORT*  modify for the interrupt scheme you use 
    priority = NVIC_EncodePriority(NVIC_GetPriorityGrouping(),5,0); // magic
    NVIC_SetPriority(HARDWARE_UART_IRQ,priority);
 
@@ -358,7 +373,7 @@ void USARTSTOP(void)
    // on the semaphores.
    SEMA_CREATE_COUNTING_LITERAL(USARTRXSEMA,RECEIVE_BUFFER_SIZE,0);
    SEMA_CREATE_COUNTING_LITERAL(USARTTXSEMA,TRANSMIT_BUFFER_SIZE,0);
-   SEMA_CREATE_COUNTING_LITERAL(USARTMUTEXSEMA,1024,1);
+   SEMA_CREATE_COUNTING_LITERAL(USARTSHARESEMA,1024,1);
 
 
 }
@@ -368,7 +383,7 @@ void USARTPUTCH(uint8_t value)
 
    volatile    CONTEXT;
 
-   SEMA_GET(USARTMUTEXSEMA,WAIT_FOREVER,error);
+   SEMA_GET(USARTSHARESEMA,WAIT_FOREVER,error);
    ENTER_CRITICAL();
    if(usartTxCount == 0)
    {
@@ -415,7 +430,7 @@ void USARTPUTCH(uint8_t value)
       }
       EXIT_CRITICAL();
    }
-   SEMA_PUT(USARTMUTEXSEMA);
+   SEMA_PUT(USARTSHARESEMA);
 }
 
 void USARTSEND(uint8_t *bufferPtr, uint32_t length)
@@ -564,6 +579,7 @@ uint8_t USARTCHARREADY(void)
 }
 
 // Practical limit of 128 characters as a time
+// *PORT adjust name as necesary, left static it won't matter.
 static char  usart1OutputBuffer[128];
 void USARTPRINTF(char *format,...)
 {
